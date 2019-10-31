@@ -22,6 +22,8 @@ public class UserService {
 
     private UserDto buildUserDtoFromUser(User user){
         UserDto userDto = new UserDto();
+        userDto.setAdmin(user.getAdmin());
+        userDto.setSurname(user.getSurname());
         userDto.setUser_id(user.getId());
         userDto.setEmail(user.getEmail());
         userDto.setName(user.getName());

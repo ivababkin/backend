@@ -32,12 +32,11 @@ public class UserDto {
     @Setter
     private Boolean admin;
 
-    public UserDto(Long user_id, String login, String password, String email, String name, String surname, Boolean admin) {
+    public UserDto(Long user_id, String login, String email, String name, String surname, Boolean admin) {
         this.user_id = user_id;
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.admin = admin;
-        this.password = password;
     }
 }

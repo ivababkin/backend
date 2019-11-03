@@ -1,8 +1,12 @@
 package nc.backend.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
     @Getter
     @Setter

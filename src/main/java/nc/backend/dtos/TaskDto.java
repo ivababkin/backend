@@ -1,11 +1,12 @@
 package nc.backend.dtos;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskDto {
     @Getter
     @Setter

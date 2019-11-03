@@ -3,10 +3,8 @@ package nc.backend.entities;
 import com.sun.istack.NotNull;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 
 @Getter
@@ -19,6 +17,8 @@ public class User {
 
     @Id
     @Column(name  = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
+    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "LOGIN")
@@ -45,10 +45,14 @@ public class User {
     @NotNull
     private Boolean admin;
 
-    public User(String email, String name, String surname, Boolean admin) {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Task> tasks;
+
+    public User(String email, String name, String surname, Boolean admin, List<Task> tasks) {
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.admin = admin;
+        this.tasks = tasks;
     }
 }

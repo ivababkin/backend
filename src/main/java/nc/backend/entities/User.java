@@ -25,9 +25,9 @@ public class User {
     @NotNull
     private String login;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "PASSWORD_HASH")
     @NotNull
-    private String password;
+    private String password_hash;
 
     @Column(name = "EMAIL")
     @NotNull
@@ -46,13 +46,16 @@ public class User {
     private Boolean admin;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Task> tasks;
+    @Getter
+    @Setter
+    private List<UserTask> userTasks;
 
-    public User(String email, String name, String surname, Boolean admin, List<Task> tasks) {
+    public User(String login, String email, String name, String surname, Boolean admin, List<UserTask> userTasks) {
+        this.login = login;
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.admin = admin;
-        this.tasks = tasks;
+        this.userTasks = userTasks;
     }
 }

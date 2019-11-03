@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-public class UserTaskPK {
+public class UserTaskPK implements Serializable {
     @Getter
     @Setter
     @Column(name = "USER_ID")

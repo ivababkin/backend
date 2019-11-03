@@ -32,7 +32,7 @@ public class UserTaskService {
         TaskDto taskDto = buildTaskDtoFromTask(userTask.getTask());
 
         return new UserTaskDto(userTask.getUserTaskPK(), userTask.getProgress(),
-                userTask.getAttempts_number(), userTask.getTime(), userTask.getLog(), userTask.getCode(),
+                userTask.getAttempt_number(), userTask.getTime(), userTask.getLog(), userTask.getCode(),
                 taskDto);
     }
 }

@@ -33,11 +33,11 @@ public class UserTask {
     @Setter
     private String path_result;
 
-    @Column(name = "ATTEMPTS_NUMBER")
+    @Column(name = "ATTEMPT_NUMBER")
     @NotNull
     @Getter
     @Setter
-    private Integer attempts_number;
+    private Integer attempt_number;
 
     //todo time not null
 
@@ -59,7 +59,7 @@ public class UserTask {
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USED_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "USER_ID", insertable = false, updatable = false)
     @Setter
     @Getter
     private User user;
@@ -70,12 +70,12 @@ public class UserTask {
     @Getter
     private Task task;
 
-    public UserTask(UserTaskPK userTaskPK, BigDecimal progress, String path_result, Integer attempts_number,
+    public UserTask(UserTaskPK userTaskPK, BigDecimal progress, String path_result, Integer attempt_number,
                     ZonedDateTime time, String log, String code, User user, Task task) {
         this.userTaskPK = userTaskPK;
         this.progress = progress;
         this.path_result = path_result;
-        this.attempts_number = attempts_number;
+        this.attempt_number = attempt_number;
         this.time = time;
         this.log = log;
         this.code = code;

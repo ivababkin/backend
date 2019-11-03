@@ -24,7 +24,7 @@ public class UserTaskDto {
 
     @Getter
     @Setter
-    private Integer attempts_number;
+    private Integer attempt_number;
 
     @Getter
     @Setter
@@ -44,10 +44,10 @@ public class UserTaskDto {
 
 
     public UserTaskDto(UserTaskPK userTaskPK, BigDecimal progress,
-                       Integer attempts_number, ZonedDateTime time, String log, String code, TaskDto taskDto) {
+                       Integer attempt_number, ZonedDateTime time, String log, String code, TaskDto taskDto) {
         this.userTaskPK = userTaskPK;
         this.progress = progress;
-        this.attempts_number = attempts_number;
+        this.attempt_number = attempt_number;
         this.time = time;
         this.log = log;
         this.code = code;

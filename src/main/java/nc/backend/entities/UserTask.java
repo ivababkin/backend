@@ -69,4 +69,17 @@ public class UserTask {
     @Setter
     @Getter
     private Task task;
+
+    public UserTask(UserTaskPK userTaskPK, BigDecimal progress, String path_result, Integer attempts_number,
+                    ZonedDateTime time, String log, String code, User user, Task task) {
+        this.userTaskPK = userTaskPK;
+        this.progress = progress;
+        this.path_result = path_result;
+        this.attempts_number = attempts_number;
+        this.time = time;
+        this.log = log;
+        this.code = code;
+        this.user = user;
+        this.task = task;
+    }
 }

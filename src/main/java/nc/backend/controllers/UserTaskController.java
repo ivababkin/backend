@@ -24,10 +24,12 @@ public class UserTaskController {
         this.userTaskService = userTaskService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    //todo
+
+    /* @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDto>> getAll(){
         return ResponseEntity.ok(userTaskService.getAll());
-    }
+    } */
 
     @RequestMapping("/task")
     public UserTaskDto getUserTask(@RequestParam(value = "userId", required = false) Long userId,

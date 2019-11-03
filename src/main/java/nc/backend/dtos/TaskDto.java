@@ -2,6 +2,7 @@ package nc.backend.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import nc.backend.entities.Task;
 
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -26,25 +27,32 @@ public class TaskDto {
 
     @Getter
     @Setter
-    private String file_path;
-
-    @Getter
-    @Setter
     private Integer attempts_max;
 
     @Getter
     @Setter
     private String task_name;
 
-    public TaskDto(Long id, Integer number, String section, String description, String file_path, Integer attempts_max, String task_name) {
+    public TaskDto(Long id, Integer number, String section, String description, Integer attempts_max, String task_name) {
         this.id = id;
         this.number = number;
         this.section = section;
         this.description = description;
-        this.file_path = file_path;
         this.attempts_max = attempts_max;
         this.task_name = task_name;
     }
+
+    public static TaskDto buildTaskDtoFromTask(Task task){
+        TaskDto taskDto = new TaskDto();
+        taskDto.setAttempts_max(task.getAttempts_max());
+        taskDto.setDescription(task.getDescription());
+        taskDto.setNumber(task.getNumber());
+        taskDto.setTask_name(task.getTask_name());
+        taskDto.setSection(task.getSection());
+
+        return taskDto;
+    }
+
 }
 
 

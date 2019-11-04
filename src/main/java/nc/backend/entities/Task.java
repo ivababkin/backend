@@ -18,6 +18,8 @@ import java.util.List;
 public class Task {
     @Id
     @Column(name  = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq_gen")
+    @SequenceGenerator(name = "task_seq_gen", sequenceName = "task_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "NUMBER")

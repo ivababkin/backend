@@ -40,6 +40,8 @@ COMMENT ON COLUMN tasks.description IS 'Unique task description';
 COMMENT ON COLUMN tasks.file_path IS 'Unique path to sample picture';
 COMMENT ON COLUMN tasks.task_name IS 'Task varchar name';
 
+CREATE SEQUENCE IF NOT EXISTS task_id_sequence START WITH 1 MINVALUE 1 INCREMENT BY 1;
+COMMENT ON SEQUENCE task_id_sequence IS 'Sequence for ID of table tasks';
 
 /*todo in TABLE user_tasks time NOT NULL*/
 

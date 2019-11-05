@@ -10,29 +10,20 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private UserDao userDao;
+    private UserDataService userDataService;
 
-    public UserService(UserDao userDao){
+    public UserService(UserDao userDao, UserDataService userDataService) {
         this.userDao = userDao;
+        this.userDataService = userDataService;
     }
 
     public UserDto getUser(Long userId){
         User user = userDao.findByID(userId);
-        return buildUserDtoFromUser(user);
-    }
-
-    private UserDto buildUserDtoFromUser(User user){
-        UserDto userDto = new UserDto();
-        userDto.setAdmin(user.getAdmin());
-        userDto.setSurname(user.getSurname());
-        userDto.setUser_id(user.getId());
-        userDto.setEmail(user.getEmail());
-        userDto.setName(user.getName());
-
-        return userDto;
+        return this.userDataService.buildUserDtoFromUser(user);
     }
 
     public UserDto getUserByEmail(String userEmail){
         User user = userDao.findByEmail(userEmail);
-        return buildUserDtoFromUser(user);
+        return this.userDataService.buildUserDtoFromUser(user);
     }
 }

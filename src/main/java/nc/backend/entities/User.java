@@ -51,4 +51,14 @@ public class User {
         this.surname = surname;
         this.admin = admin;
     }
+
+    public User(String password, String login, String email, String name, String surname, boolean i) {
+        this.password = password;
+        this.login = login;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.admin = admin;
+    }
+
 }

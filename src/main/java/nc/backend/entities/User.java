@@ -25,6 +25,11 @@ public class User {
     @NotNull
     private String login;
 
+    @Column(name = "PASSWORD")
+    @NotNull
+    private String password;
+
+
     @Column(name = "PASSWORD_HASH")
     @NotNull
     private String password_hash;

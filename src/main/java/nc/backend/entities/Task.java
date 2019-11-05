@@ -6,10 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +18,8 @@ import javax.persistence.Table;
 public class Task {
     @Id
     @Column(name  = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq_gen")
+    @SequenceGenerator(name = "task_seq_gen", sequenceName = "task_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "NUMBER")
@@ -42,13 +42,18 @@ public class Task {
     @Column(name = "TASK_NAME")
     private String task_name;
 
-    public Task(Long id, Integer number, String section, String description, String file_path, Integer attempts_max, String task_name) {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task")
+    @Getter
+    @Setter
+    private List<UserTask> userTasks;
+
+    public Task(Long id, Integer number, String section, String description, Integer attempts_max, String task_name, List<UserTask> userTasks) {
         this.id = id;
         this.number = number;
         this.section = section;
         this.description = description;
-        this.file_path = file_path;
         this.attempts_max = attempts_max;
         this.task_name = task_name;
+        this.userTasks = userTasks;
     }
 }

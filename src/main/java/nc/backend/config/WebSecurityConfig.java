@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtTokenProvider jwtTokenProvider;
 
     private final String ADMIN_ENDPOINT = "backend/admin";
-    private final String REGISTER_ENDPOINT = "backend/users/register";
+    private final String REGISTER_ENDPOINT = "backend/register";
     private final String AUTH_ENDPOINT = "backend/auth";
 
     @Autowired

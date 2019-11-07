@@ -19,13 +19,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class UserController {
 
     private UserService userService;
-    private UserAuthorizationService userAuthorizationService;
+    //private UserAuthorizationService userAuthorizationService;
 
     private BCryptPasswordEncoder encoder;
 
     public UserController(UserService userService, UserAuthorizationService userAuthorizationService) {
         this.userService = userService;
-        this.userAuthorizationService = userAuthorizationService;
+        //this.userAuthorizationService = userAuthorizationService;
     }
 
 
@@ -40,8 +40,8 @@ public class UserController {
         return userService.getUserByEmail(userEmail);
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/register", method = RequestMethod.POST)
     public void Register(UserRegistrationDto userRegistrationObject) {
         this.userAuthorizationService.registerUser(userRegistrationObject);
-    }
+    }*/
 }

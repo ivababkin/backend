@@ -1,8 +1,11 @@
 package nc.backend.config;
 
+import nc.backend.security.jwt.JwtConfigurer;
+import nc.backend.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,13 +22,23 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
+    private JwtTokenProvider jwtTokenProvider;
 
-    @Override
+    private final String ADMIN_ENDPOINT = "backend/admin";
+    private final String REGISTER_ENDPOINT = "backend/users/register";
+    private final String AUTH_ENDPOINT = "backend/auth";
+
+    @Autowired
+    public WebSecurityConfig(DataSource dataSource, JwtTokenProvider jwtTokenProvider) {
+        this.dataSource = dataSource;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    /*@Override
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests().antMatchers("/").permitAll();
-    }
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,6 +49,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers(REGISTER_ENDPOINT).permitAll()
+                .antMatchers(AUTH_ENDPOINT).permitAll()
+                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .apply(new JwtConfigurer(jwtTokenProvider));
     }
 }
 

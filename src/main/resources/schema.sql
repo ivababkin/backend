@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users  (
         id BIGINT PRIMARY KEY ,
         login VARCHAR(255) UNIQUE NOT NULL,
-        password_hash VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         name VARCHAR(100) NOT NULL,
         surname VARCHAR(100) NOT NULL,
@@ -13,7 +13,7 @@ COMMENT ON COLUMN users.id IS 'Personal user database ID';
 COMMENT ON COLUMN users.admin IS 'Boolean const for verification admin preferences';
 COMMENT ON COLUMN users.email IS 'User email';
 COMMENT ON COLUMN users.login IS 'User login';
-COMMENT ON COLUMN users.password_hash IS 'Password hash is hash of hashes';
+COMMENT ON COLUMN users.password IS 'Password hash is hash of hashes';
 COMMENT ON COLUMN users.surname IS 'Users last name';
 COMMENT ON COLUMN users.name IS 'Users name';
 

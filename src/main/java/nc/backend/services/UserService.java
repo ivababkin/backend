@@ -1,5 +1,6 @@
 package nc.backend.services;
 
+import lombok.extern.slf4j.Slf4j;
 import nc.backend.daos.UserDao;
 import nc.backend.dtos.UserDto;
 import nc.backend.entities.User;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@Slf4j
 public class UserService {
 
     private UserDao userDao;
@@ -26,4 +28,12 @@ public class UserService {
         User user = userDao.findByEmail(userEmail);
         return this.userDataService.buildUserDtoFromUser(user);
     }
+
+    public User findByUserLogin(String login){
+        User user = this.userDao.findByUserLogin(login);
+
+        log.info("IN findByUserLogin - user: {} found by login: {}", user, login);
+        return user;
+    }
+
 }

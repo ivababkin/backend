@@ -1,28 +1,27 @@
 package nc.backend.controllers;
 
 import nc.backend.common.Role;
+import nc.backend.dtos.AuthenticationAnswerDto;
 import nc.backend.dtos.AuthenticationRequestDto;
 import nc.backend.entities.User;
 import nc.backend.security.jwt.JwtTokenProvider;
 import nc.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
@@ -37,8 +36,8 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
+    @RequestMapping(value = "/auth", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public AuthenticationAnswerDto login(@RequestBody AuthenticationRequestDto requestDto) {
         try {
             String username = requestDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
@@ -50,12 +49,9 @@ public class AuthenticationController {
 
             String token = jwtTokenProvider.createToken(username, (List<Role>) new Role(user.getAdmin()));
 
-            System.out.println(token);
-            Map<Object, Object> response = new HashMap<>();
-            response.put("username", username);
-            response.put("token", token);
 
-            return ResponseEntity.ok(response);
+
+            return new AuthenticationAnswerDto(username, token);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username or password");
         }

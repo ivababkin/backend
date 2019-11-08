@@ -37,6 +37,11 @@ public class JwtTokenProvider {
         this.jwtUserDetailsService = userDetailsService;
     }
 
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @PostConstruct
     protected void init() {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());

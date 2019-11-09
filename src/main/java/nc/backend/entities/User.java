@@ -25,9 +25,9 @@ public class User {
     @NotNull
     private String login;
 
-    @Column(name = "PASSWORD_HASH")
+    @Column(name = "PASSWORD")
     @NotNull
-    private String password_hash;
+    private String password;
 
     @Column(name = "EMAIL")
     @NotNull
@@ -58,4 +58,14 @@ public class User {
         this.admin = admin;
         this.userTasks = userTasks;
     }
+
+    public User(String password, String login, String email, String name, String surname, boolean admin) {
+        this.password = password;
+        this.login = login;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.admin = admin;
+    }
+
 }

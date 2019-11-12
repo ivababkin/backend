@@ -32,7 +32,7 @@ public class UserRegistrationDto {
     private boolean admin;
 
 
-    public UserRegistrationDto(String password, String login, String email, String name, String surname, Boolean admin) {
+    public UserRegistrationDto( String login, String password, String email, String name, String surname, Boolean admin) {
         this.email = email;
         this.name = name;
         this.surname = surname;

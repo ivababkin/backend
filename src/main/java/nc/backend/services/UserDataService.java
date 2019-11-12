@@ -22,7 +22,8 @@ public class UserDataService {
 
     //todo public User buildUserFromUserRegistrationDto(UserRegistrationDto userRegistrationObject)
     public User buildUserFromUserRegistrationDto(UserRegistrationDto userRegistrationObject){
-        return new User(userRegistrationObject.getPassword(), userRegistrationObject.getLogin(),
-                userRegistrationObject.getEmail(), userRegistrationObject.getName(), userRegistrationObject.getSurname(), false);
+        //User(String login,  String password, String email, String name, String surname, Boolean admin, List<UserTask> userTasks)
+        return new User(userRegistrationObject.getLogin(), userRegistrationObject.getPassword(),
+                userRegistrationObject.getEmail(), userRegistrationObject.getName(), userRegistrationObject.getSurname(), false, null);
     }
 }

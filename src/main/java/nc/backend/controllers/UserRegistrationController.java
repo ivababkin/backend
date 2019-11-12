@@ -1,9 +1,9 @@
 package nc.backend.controllers;
 
+import nc.backend.dtos.UserDto;
 import nc.backend.dtos.UserRegistrationDto;
-import nc.backend.services.UserAuthorizationService;
+import nc.backend.services.UserRegistrationService;
 import org.springframework.web.bind.annotation.*;
-import nc.backend.services.UserAuthorizationService;
 
 
 @RestController
@@ -11,13 +11,13 @@ import nc.backend.services.UserAuthorizationService;
 public class UserRegistrationController {
 
 
-    private UserAuthorizationService userAuthorizationService;
+    private UserRegistrationService userAuthorizationService;
 
-    public UserRegistrationController(UserAuthorizationService userAuthorizationService) {
+    public UserRegistrationController(UserRegistrationService userAuthorizationService) {
         this.userAuthorizationService = userAuthorizationService;
     }
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public void register(@RequestBody UserRegistrationDto userRegistrationObject) {
-        this.userAuthorizationService.registerUser(userRegistrationObject);
+    public UserDto register(@RequestBody UserRegistrationDto userRegistrationDto) {
+        return this.userAuthorizationService.registerUser(userRegistrationDto);
     }
 }

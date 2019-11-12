@@ -1,6 +1,7 @@
 package nc.backend.services;
 
 import nc.backend.daos.UserDao;
+import nc.backend.dtos.UserDto;
 import nc.backend.dtos.UserRegistrationDto;
 import nc.backend.entities.User;
 import org.slf4j.Logger;
@@ -12,33 +13,31 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserAuthorizationService {
+public class UserRegistrationService {
     private UserDataService userDataService;
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
     private UserDao userDao;
 
-    private static Logger logger = LoggerFactory.getLogger(UserAuthorizationService.class);
+    private static Logger logger = LoggerFactory.getLogger(UserRegistrationService.class);
 
 
-    public UserAuthorizationService(UserDao userDao){
-        logger.info("----------UserAuthorizationService created-----------");
+    public UserRegistrationService(UserDao userDao){
+        logger.info("----------UserRegistrationService created-----------");
         this.userDao = userDao;
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
         userDataService = new UserDataService();
     }
 
-    public User registerUser(UserRegistrationDto userRegistrationObject) {
+    public UserDto registerUser(UserRegistrationDto userRegistrationDto) {
         logger.info("----------try to save user-----------");
-        User user = this.userDataService.buildUserFromUserRegistrationDto(userRegistrationObject);
-        logger.info("----------1-----------");
-        String encodedPassword = bCryptPasswordEncoder.encode(userRegistrationObject.getPassword());
-        logger.info("----------2-----------" + userRegistrationObject.getPassword());
+        User user = this.userDataService.buildUserFromUserRegistrationDto(userRegistrationDto);
+        String encodedPassword = bCryptPasswordEncoder.encode(userRegistrationDto.getPassword());
+        logger.info("----------2-----------" + userRegistrationDto.getPassword());
         user.setPassword(encodedPassword);
-        logger.info("----------3-----------" + user);
         userDao.save(user);
         logger.info("----------User saved-----------", user);
 
-        return user;
+        return userDataService.buildUserDtoFromUser(user);
     }
 }

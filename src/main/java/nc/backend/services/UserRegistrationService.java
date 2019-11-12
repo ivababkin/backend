@@ -1,6 +1,7 @@
 package nc.backend.services;
 
 import nc.backend.daos.UserDao;
+import nc.backend.dtos.UserDto;
 import nc.backend.dtos.UserRegistrationDto;
 import nc.backend.entities.User;
 import org.slf4j.Logger;
@@ -12,23 +13,23 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserAuthorizationService {
+public class UserRegistrationService {
     private UserDataService userDataService;
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
     private UserDao userDao;
 
-    private static Logger logger = LoggerFactory.getLogger(UserAuthorizationService.class);
+    private static Logger logger = LoggerFactory.getLogger(UserRegistrationService.class);
 
 
-    public UserAuthorizationService(UserDao userDao){
+    public UserRegistrationService(UserDao userDao){
         logger.info("----------UserAuthorizationService created-----------");
         this.userDao = userDao;
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
         userDataService = new UserDataService();
     }
 
-    public User registerUser(UserRegistrationDto userRegistrationObject) {
+    public UserDto registerUser(UserRegistrationDto userRegistrationObject) {
         logger.info("----------try to save user-----------");
         User user = this.userDataService.buildUserFromUserRegistrationDto(userRegistrationObject);
         logger.info("----------1-----------");
@@ -39,6 +40,6 @@ public class UserAuthorizationService {
         userDao.save(user);
         logger.info("----------User saved-----------", user);
 
-        return user;
+        return userDataService.buildUserDtoFromUser(user);
     }
 }

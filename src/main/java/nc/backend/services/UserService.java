@@ -15,7 +15,7 @@ public class UserService {
 
     private UserDao userDao;
     private UserDataService userDataService;
-    private static Logger logger = LoggerFactory.getLogger(UserRegistrationService.class);
+    private static Logger logger = LoggerFactory.getLogger(UserAuthorizationService.class);
 
     public UserService(UserDao userDao, UserDataService userDataService) {
         this.userDao = userDao;

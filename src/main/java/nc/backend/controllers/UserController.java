@@ -3,7 +3,7 @@ package nc.backend.controllers;
 import nc.backend.dtos.UserDto;
 import nc.backend.dtos.UserRegistrationDto;
 import nc.backend.entities.User;
-import nc.backend.services.UserRegistrationService;
+import nc.backend.services.UserAuthorizationService;
 import nc.backend.services.UserDataService;
 import nc.backend.services.UserService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ public class UserController {
 
     private BCryptPasswordEncoder encoder;
 
-    public UserController(UserService userService, UserRegistrationService userAuthorizationService) {
+    public UserController(UserService userService, UserAuthorizationService userAuthorizationService) {
         this.userService = userService;
         //this.userAuthorizationService = userAuthorizationService;
     }

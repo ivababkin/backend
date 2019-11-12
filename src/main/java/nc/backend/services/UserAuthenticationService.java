@@ -40,8 +40,6 @@ public class UserAuthenticationService {
             roles.add(new Role(user.getAdmin()));
             String token = jwtTokenProvider.createToken(username, roles);
 
-
-
             return new AuthenticationAnswerDto(username, token);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username or password");

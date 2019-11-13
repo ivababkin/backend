@@ -29,14 +29,17 @@ public class UserRegistrationService {
         userDataService = new UserDataService();
     }
 
+    public User buildUserFromUserRegistrationDto(UserRegistrationDto userRegistrationObject){
+        return new User(userRegistrationObject.getPassword(), userRegistrationObject.getLogin(),
+                userRegistrationObject.getEmail(), userRegistrationObject.getName(), userRegistrationObject.getSurname(), false);
+    }
+
     public UserDto registerUser(UserRegistrationDto userRegistrationObject) {
         logger.info("----------try to save user-----------");
-        User user = this.userDataService.buildUserFromUserRegistrationDto(userRegistrationObject);
-        logger.info("----------1-----------");
+        User user = buildUserFromUserRegistrationDto(userRegistrationObject);
         String encodedPassword = bCryptPasswordEncoder.encode(userRegistrationObject.getPassword());
-        logger.info("----------2-----------" + userRegistrationObject.getPassword());
+        logger.info("---------------------" + userRegistrationObject.getPassword());
         user.setPassword(encodedPassword);
-        logger.info("----------3-----------" + user);
         userDao.save(user);
         logger.info("----------User saved-----------", user);
 

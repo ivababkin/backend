@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
@@ -19,13 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class UserController {
 
     private UserService userService;
-    //private UserAuthorizationService userAuthorizationService;
 
     private BCryptPasswordEncoder encoder;
 
     public UserController(UserService userService, UserRegistrationService userAuthorizationService) {
         this.userService = userService;
-        //this.userAuthorizationService = userAuthorizationService;
     }
 
 
@@ -40,8 +37,4 @@ public class UserController {
         return userService.getUserByEmail(userEmail);
     }
 
-    /*@RequestMapping(value = "/register", method = RequestMethod.POST)
-    public void Register(UserRegistrationDto userRegistrationObject) {
-        this.userAuthorizationService.registerUser(userRegistrationObject);
-    }*/
 }

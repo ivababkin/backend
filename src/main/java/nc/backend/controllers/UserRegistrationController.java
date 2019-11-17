@@ -1,13 +1,9 @@
 package nc.backend.controllers;
 
+import nc.backend.dtos.UserDto;
 import nc.backend.dtos.UserRegistrationDto;
-import nc.backend.services.UserAuthorizationService;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import nc.backend.services.UserAuthorizationService;
-import org.springframework.web.bind.annotation.RestController;
+import nc.backend.services.UserRegistrationService;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -15,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRegistrationController {
 
 
-    private UserAuthorizationService userAuthorizationService;
+    private UserRegistrationService userAuthorizationService;
 
-    public UserRegistrationController(UserAuthorizationService userAuthorizationService) {
+    public UserRegistrationController(UserRegistrationService userAuthorizationService) {
         this.userAuthorizationService = userAuthorizationService;
     }
-    @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void Register(@RequestBody UserRegistrationDto userRegistrationObject) {
-        this.userAuthorizationService.registerUser(userRegistrationObject);
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public UserDto register(@RequestBody UserRegistrationDto userRegistrationObject) {
+        return this.userAuthorizationService.registerUser(userRegistrationObject);
     }
 }

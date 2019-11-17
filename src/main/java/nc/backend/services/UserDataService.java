@@ -20,9 +20,4 @@ public class UserDataService {
         return userDto;
     }
 
-    //todo public User buildUserFromUserRegistrationDto(UserRegistrationDto userRegistrationObject)
-    public User buildUserFromUserRegistrationDto(UserRegistrationDto userRegistrationObject){
-        return new User(userRegistrationObject.getPassword(), userRegistrationObject.getLogin(),
-                userRegistrationObject.getEmail(), userRegistrationObject.getName(), userRegistrationObject.getSurname(), false);
-    }
 }

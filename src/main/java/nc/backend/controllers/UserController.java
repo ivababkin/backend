@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
     private UserService userService;
 
 

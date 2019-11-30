@@ -63,7 +63,7 @@ public class UserTaskService {
         validateIsNotNull(user, "There is no user with such id");
         validateIsNotNull(task, "There is no task with such id");
 
-
+        File uploadFolder = createFolder("", this.UPLOAD_PATH);
         File userFolder= createFolder(this.UPLOAD_PATH, String.valueOf(userId));
         File userTaskFolder = createFolder(this.UPLOAD_PATH + "/" + userFolder.getName(), String.valueOf(taskId));
 
@@ -93,9 +93,6 @@ public class UserTaskService {
         File folder = new File(path, name);
         if(!folder.exists()){
             folder.mkdir();
-        }
-        else {
-            throw new NoSuchFileException("Folder with current name already exists");
         }
 
         return folder;

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 public class UserDataService {
 
     public UserDto buildUserDtoFromUser(User user){
+        if (user == null) {
+            return null;
+        }
         UserDto userDto = new UserDto();
         userDto.setAdmin(user.getAdmin());
         userDto.setSurname(user.getSurname());

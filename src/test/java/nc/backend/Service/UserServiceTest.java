@@ -1,4 +1,4 @@
-package nc.backend.service;
+package nc.backend.Service;
 
 import nc.backend.common.utils.ValidationException;
 import nc.backend.daos.UserDao;

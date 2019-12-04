@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,38 +30,28 @@ public class UserServiceTest {
 
     @Before
     public void setUp(){
-        logger.info("----------setUp tester-----------");
         this.userService = new UserService(userDao, userDataService);
      }
 
     @Test
     public void getUserByIDTest(){
-        if (userService.getUser(1L).getUser_id() == 1L) {
-            logger.info("----------getByIDTest OK----------");
-        }
-        if (userService.getUser(132L) == null) {
-            logger.info("----------incorrectIDTest OK----------");
-        }
+        assertTrue(userService.getUser(1L).getUser_id() == 1L);
+        assertTrue(userService.getUser(132L) == null);
+        logger.info("----------getByIDTest OK----------");
     }
 
     @Test
-    public void getUserByLoginTest() throws ValidationException{
-        if (userService.findByUserLogin("lalal").getId() == 1L) {
-            logger.info("----------getUserByLoginTest OK----------");
-        }
-        if (userService.findByUserLogin("ascasca") == null) {
-            logger.info("----------incorrectLoginTest OK----------");
-        }
+    public void getUserByLoginTest(){
+        assertTrue(userService.findByUserLogin("lalal").getId() == 1L);
+        assertTrue(userService.findByUserLogin("ascasca") == null);
+        logger.info("----------getUserByLoginTest OK----------");
     }
 
     @Test
     public void getUserByEmail(){
-        if (userService.getUserByEmail("email").getUser_id() == 1L) {
-            logger.info("----------getUserByEmailTest OK----------");
-        }
-        if (userService.getUserByEmail("ewfwefwef") == null) {
-            logger.info("----------incorrectEmailTest OK----------");
-        }
+        assertTrue(userService.getUserByEmail("email").getUser_id() == 1L);
+        assertTrue(userService.getUserByEmail("ewfwefwef") == null);
+        logger.info("----------getUserByEmail OK----------");
     }
 
 }

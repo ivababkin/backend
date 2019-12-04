@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TaskServiceTest {
@@ -27,17 +29,13 @@ public class TaskServiceTest {
 
     @Before
     public void setUp() {
-        logger.info("----------setUp tester-----------");
         this.taskService = new TaskService(taskDao);
     }
 
     @Test
     public void getTaskByIDTest() {
-        if (taskService.getTask(1L).getNumber() == 1L) {
-            logger.info("----------getTaskByIDTest OK----------");
-        }
-        if (taskService.getTask(132L) == null) {
-            logger.info("----------incorrectTaskIDTest OK----------");
-        }
+        assertTrue(taskService.getTask(1L).getNumber() == 1L);
+        assertTrue(taskService.getTask(132L) == null);
+        logger.info("----------getTaskByIDTest OK----------");
     }
 }

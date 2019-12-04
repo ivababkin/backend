@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 
@@ -22,23 +24,25 @@ public class RegistrationServiceTest {
 
     @Autowired
     private UserDao userDao;
-    //@Autowired
-    //private UserDataService userDataService;
-    //@Autowired
-    //private UserService userService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private UserRegistrationService userRegistrationService;
 
     @Before
     public void setUp(){
-        logger.info("----------setUp tester-----------");
         this.userRegistrationService = new UserRegistrationService(userDao);
     }
 
     @Test
     public void registerUserTest(){
         UserRegistrationDto userRegistrationDto = new UserRegistrationDto
-                ("testPass1", "testLogin1", "testEmail1", "testName1", "testSurname1", false);
+                ("testPass2", "testLogin2", "testEmail2", "testName2", "testSurname2", false);
         userRegistrationService.registerUser(userRegistrationDto);
+        Long userID = userService.findByUserLogin("testLogin2").getId();
+        //logger.info("---------userID------------" + userID);
+        userRegistrationService.deleteUserById(userID);
+        assertTrue(userService.getUser(userID) == null);
+        logger.info("---------registerUserTest OK------------");
     }
 }

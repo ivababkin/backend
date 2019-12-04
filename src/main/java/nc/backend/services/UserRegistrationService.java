@@ -47,7 +47,7 @@ public class UserRegistrationService {
     }
 
     public void deleteUserById(Long userId) {
-        logger.info("----------try to delete user-----------");
+        logger.info("----------try to delete user-- " + userId);
         userDao.deleteById(userId);
     }
 }

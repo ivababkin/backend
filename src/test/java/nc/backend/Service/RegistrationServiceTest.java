@@ -29,11 +29,6 @@ public class RegistrationServiceTest {
     @Autowired
     private UserRegistrationService userRegistrationService;
 
-    @Before
-    public void setUp(){
-        this.userRegistrationService = new UserRegistrationService(userDao);
-    }
-
     @Test
     public void registerUserTest(){
         UserRegistrationDto userRegistrationDto = new UserRegistrationDto

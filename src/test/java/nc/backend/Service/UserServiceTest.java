@@ -28,10 +28,6 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    @Before
-    public void setUp(){
-        this.userService = new UserService(userDao, userDataService);
-     }
 
     @Test
     public void getUserByIDTest(){

@@ -27,11 +27,6 @@ public class TaskServiceTest {
     @Autowired
     private TaskService taskService;
 
-    @Before
-    public void setUp() {
-        this.taskService = new TaskService(taskDao);
-    }
-
     @Test
     public void getTaskByIDTest() {
         assertTrue(taskService.getTask(1L).getNumber() == 1L);

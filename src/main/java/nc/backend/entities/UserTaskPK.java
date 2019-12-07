@@ -25,6 +25,17 @@ public class UserTaskPK implements Serializable {
     @NotNull
     private Long taskId;
 
+    @Getter
+    @Setter
+    @Column(name = "ATTEMPT_NUMBER")
+    private Long attempt_number;
+
+    public UserTaskPK(Long userId, Long taskId, Long attempt_number) {
+        this.userId = userId;
+        this.taskId = taskId;
+        this.attempt_number = attempt_number;
+    }
+
     public UserTaskPK(Long userId, Long taskId) {
         this.userId = userId;
         this.taskId = taskId;

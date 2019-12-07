@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS tasks  (
     id BIGINT PRIMARY KEY,
     number INTEGER NOT NULL,
     section VARCHAR(255) NOT NULL,
+    deadline TIMESTAMP NOT NULL,
     description VARCHAR(1000) UNIQUE NOT NULL,
     file_path VARCHAR(100) UNIQUE,
     attempts_max INTEGER,
@@ -43,17 +44,14 @@ COMMENT ON COLUMN tasks.task_name IS 'Task varchar name';
 CREATE SEQUENCE IF NOT EXISTS task_id_sequence START WITH 1 MINVALUE 1 INCREMENT BY 1;
 COMMENT ON SEQUENCE task_id_sequence IS 'Sequence for ID of table tasks';
 
-/*todo in TABLE user_tasks time NOT NULL*/
-
 CREATE TABLE IF NOT EXISTS users_tasks  (
     user_id BIGINT REFERENCES users(id),
     task_id BIGINT REFERENCES tasks(id),
     progress NUMERIC NOT NULL,
     path_result VARCHAR(255) NOT NULL,
+    path_upload VARCHAR(255) NOT NULL,
     attempt_number INTEGER NOT NULL,
-    time TIMESTAMP,
-    log VARCHAR(255) NOT NULL,
-    code VARCHAR(1000) NOT NULL,
-    CONSTRAINT users_tasks_pk PRIMARY KEY (user_id, task_id)
+    time TIMESTAMP NOT NULL,
+    CONSTRAINT users_tasks_pk PRIMARY KEY (user_id, task_id, attempt_number)
 );
 

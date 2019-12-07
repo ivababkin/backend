@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Getter
@@ -42,12 +43,17 @@ public class Task {
     @Column(name = "TASK_NAME")
     private String task_name;
 
+    @Column(name = "DEADLINE")
+    private ZonedDateTime deadline;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task")
     @Getter
     @Setter
     private List<UserTask> userTasks;
 
-    public Task(Long id, Integer number, String section, String description, Integer attempts_max, String task_name, List<UserTask> userTasks) {
+    public Task(Long id, Integer number, String section, String description,
+                Integer attempts_max, String task_name,
+                List<UserTask> userTasks, ZonedDateTime deadline) {
         this.id = id;
         this.number = number;
         this.section = section;
@@ -55,5 +61,6 @@ public class Task {
         this.attempts_max = attempts_max;
         this.task_name = task_name;
         this.userTasks = userTasks;
+        this.deadline = deadline;
     }
 }

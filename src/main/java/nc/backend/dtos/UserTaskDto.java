@@ -24,18 +24,23 @@ public class UserTaskDto {
 
     @Getter
     @Setter
-    private ZonedDateTime time;
+    private String time;
 
     @Getter
     @Setter
     private String code;
 
+    @Getter
+    @Setter
+    private String deadline;
+
 
     public UserTaskDto(UserTaskPK userTaskPK, BigDecimal progress,
-                       ZonedDateTime time, String code) {
+                       String time, String code, String deadline) {
         this.userTaskPK = userTaskPK;
         this.progress = progress;
         this.time = time;
         this.code = code;
+        this.deadline = deadline;
     }
 }

@@ -5,6 +5,9 @@ import nc.backend.dtos.TaskDto;
 import nc.backend.entities.Task;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TaskService {
     private TaskDao taskDao;
@@ -18,14 +21,32 @@ public class TaskService {
         return buildTaskDtoFromTask(task);
     }
 
-    private TaskDto buildTaskDtoFromTask(Task task){
+    public List<TaskDto> getAllTasks(){
+        List<Task> tasks = taskDao.findAllTasks();
+        return buildTaskDtoListFromTaskList(tasks);
+    }
+
+    public TaskDto buildTaskDtoFromTask(Task task){
         TaskDto taskDto = new TaskDto();
         taskDto.setAttempts_max(task.getAttempts_max());
         taskDto.setDescription(task.getDescription());
         taskDto.setNumber(task.getNumber());
-        taskDto.setTask_name(task.getTask_name());
+        taskDto.setName(task.getTask_name());
         taskDto.setSection(task.getSection());
         return taskDto;
     }
 
+    private TaskDto buildTaskDtoFromTaskForList(Task task){
+        TaskDto taskDto = new TaskDto();
+        taskDto.setId(task.getId());
+        taskDto.setName(task.getTask_name());
+        taskDto.setSection(task.getSection());
+        return taskDto;
+    }
+
+    private List<TaskDto> buildTaskDtoListFromTaskList(List<Task> tasks){
+        List<TaskDto> taskDtoList = new ArrayList<>();
+        tasks.forEach(task -> taskDtoList.add(buildTaskDtoFromTaskForList(task)));
+        return taskDtoList;
+    }
 }

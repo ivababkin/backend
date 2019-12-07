@@ -9,7 +9,6 @@ import nc.backend.dtos.UserTaskDto;
 import nc.backend.entities.Task;
 import nc.backend.entities.User;
 import nc.backend.entities.UserTask;
-import nc.backend.entities.UserTaskPK;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,14 +18,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static nc.backend.common.utils.ValidationUtils.validateIsNotNull;
-import static nc.backend.dtos.TaskDto.buildTaskDtoFromTask;
 
 @Service
 public class UserTaskService {
     private final UserTaskDao userTaskDao;
+    private final TaskService taskService;
     private final UserDao userDao;
     private final TaskDao taskDao;
 
@@ -34,19 +35,21 @@ public class UserTaskService {
     private final String UPLOAD_PATH = "upload";
 
 
-    public UserTaskService(UserTaskDao userTaskDao, UserDao userDao, TaskDao taskDao) {
+    public UserTaskService(UserTaskDao userTaskDao, TaskService taskService, UserDao userDao, TaskDao taskDao) {
         this.userTaskDao = userTaskDao;
+        this.taskService = taskService;
         this.userDao = userDao;
         this.taskDao = taskDao;
     }
 
-    public UserTaskDto get(UserTaskPK userTaskPK) throws ValidationException {
-        validateIsNotNull(userTaskPK, "No userTaskPK is provided");
+    public List<UserTaskDto> getUserTasks(Long userId, Long taskId) throws ValidationException {
+        validateIsNotNull(userId, "No user is provided");
+        validateIsNotNull(taskId, "No task provided");
 
-        UserTask userTask = userTaskDao.findById(userTaskPK).get();
-        validateIsNotNull(userTask, "No userTask with id" + userTaskPK);
+        List<UserTask> userTasks = userTaskDao.findByUserIdAndTaskId(userId, taskId);
+        validateIsNotNull(userTasks, "No userTasks with userId & taskId");
 
-        return buildUserTaskDtoFromUserTask(userTask);
+        return buildUserTaskDtoListFromUserTaskList(userTasks);
     }
 
 
@@ -99,10 +102,14 @@ public class UserTaskService {
     }
 
     private UserTaskDto buildUserTaskDtoFromUserTask(UserTask userTask) {
-        TaskDto taskDto = buildTaskDtoFromTask(userTask.getTask());
+        TaskDto taskDto = this.taskService.buildTaskDtoFromTask(userTask.getTask());
 
         return new UserTaskDto(userTask.getUserTaskPK(), userTask.getProgress(),
-                userTask.getAttempt_number(), userTask.getTime(), userTask.getLog(), userTask.getCode(),
-                taskDto);
+                userTask.getTime(), " ");
+    }
+    private List<UserTaskDto> buildUserTaskDtoListFromUserTaskList(List<UserTask> userTasks){
+        List<UserTaskDto> userTaskDtoList = new ArrayList<>();
+        userTasks.forEach(userTask -> userTaskDtoList.add(buildUserTaskDtoFromUserTask(userTask)));
+        return userTaskDtoList;
     }
 }

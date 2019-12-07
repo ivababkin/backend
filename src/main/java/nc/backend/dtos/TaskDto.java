@@ -31,7 +31,7 @@ public class TaskDto {
 
     @Getter
     @Setter
-    private String task_name;
+    private String name;
 
     public TaskDto(Long id, Integer number, String section, String description, Integer attempts_max, String task_name) {
         this.id = id;
@@ -39,20 +39,8 @@ public class TaskDto {
         this.section = section;
         this.description = description;
         this.attempts_max = attempts_max;
-        this.task_name = task_name;
+        this.name = task_name;
     }
-
-    public static TaskDto buildTaskDtoFromTask(Task task){
-        TaskDto taskDto = new TaskDto();
-        taskDto.setAttempts_max(task.getAttempts_max());
-        taskDto.setDescription(task.getDescription());
-        taskDto.setNumber(task.getNumber());
-        taskDto.setTask_name(task.getTask_name());
-        taskDto.setSection(task.getSection());
-
-        return taskDto;
-    }
-
 }
 
 

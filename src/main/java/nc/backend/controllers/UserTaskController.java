@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.NoSuchFileException;
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/user-tasks")
 public class UserTaskController {
 
     private UserTaskService userTaskService;
@@ -25,9 +26,9 @@ public class UserTaskController {
 
 
     @GetMapping("/task")
-    public UserTaskDto getUserTask(@RequestParam(value = "userId", required = false) Long userId,
-                                   @RequestParam(value = "taskId", required = false) Long taskId) throws ValidationException {
-        return userTaskService.get(new UserTaskPK(userId, taskId));
+    public List<UserTaskDto> getUserTasks(@RequestParam(value = "userId", required = false) Long userId,
+                                          @RequestParam(value = "taskId", required = false) Long taskId) throws ValidationException {
+        return userTaskService.getUserTasks(userId, taskId);
     }
 
     //todo answer image

@@ -2,6 +2,7 @@ package nc.backend.services;
 
 import nc.backend.daos.TaskDao;
 import nc.backend.dtos.TaskDto;
+import nc.backend.dtos.TaskListDto;
 import nc.backend.entities.Task;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class TaskService {
         return buildTaskDtoFromTask(task);
     }
 
-    public List<TaskDto> getAllTasks(){
+    public TaskListDto getAllTasks(){
         List<Task> tasks = taskDao.findAllTasks();
         return buildTaskDtoListFromTaskList(tasks);
     }
@@ -45,9 +46,9 @@ public class TaskService {
         return taskDto;
     }
 
-    private List<TaskDto> buildTaskDtoListFromTaskList(List<Task> tasks){
+    private TaskListDto buildTaskDtoListFromTaskList(List<Task> tasks){
         List<TaskDto> taskDtoList = new ArrayList<>();
         tasks.forEach(task -> taskDtoList.add(buildTaskDtoFromTaskForList(task)));
-        return taskDtoList;
+        return new TaskListDto(taskDtoList);
     }
 }

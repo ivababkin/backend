@@ -2,6 +2,7 @@ package nc.backend.controllers;
 
 import nc.backend.common.utils.ValidationException;
 import nc.backend.dtos.TaskDto;
+import nc.backend.dtos.UserTaskAttemptsDto;
 import nc.backend.dtos.UserTaskDto;
 import nc.backend.entities.UserTaskPK;
 import nc.backend.services.UserTaskService;
@@ -26,8 +27,8 @@ public class UserTaskController {
 
 
     @GetMapping("/task")
-    public List<UserTaskDto> getUserTasks(@RequestParam(value = "userId", required = false) Long userId,
-                                          @RequestParam(value = "taskId", required = false) Long taskId) throws ValidationException {
+    public UserTaskAttemptsDto getUserTasks(@RequestParam(value = "userId", required = false) Long userId,
+                                            @RequestParam(value = "taskId", required = false) Long taskId) throws ValidationException {
         return userTaskService.getUserTasks(userId, taskId);
     }
 

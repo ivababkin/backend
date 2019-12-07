@@ -4,7 +4,7 @@ import nc.backend.common.utils.ValidationException;
 import nc.backend.daos.TaskDao;
 import nc.backend.daos.UserDao;
 import nc.backend.daos.UserTaskDao;
-import nc.backend.dtos.TaskDto;
+import nc.backend.dtos.UserTaskAttemptsDto;
 import nc.backend.dtos.UserTaskDto;
 import nc.backend.entities.Task;
 import nc.backend.entities.User;
@@ -42,14 +42,26 @@ public class UserTaskService {
         this.taskDao = taskDao;
     }
 
-    public List<UserTaskDto> getUserTasks(Long userId, Long taskId) throws ValidationException {
+    public UserTaskAttemptsDto getUserTasks(Long userId, Long taskId) throws ValidationException {
         validateIsNotNull(userId, "No user is provided");
         validateIsNotNull(taskId, "No task provided");
 
         List<UserTask> userTasks = userTaskDao.findByUserIdAndTaskId(userId, taskId);
         validateIsNotNull(userTasks, "No userTasks with userId & taskId");
 
-        return buildUserTaskDtoListFromUserTaskList(userTasks);
+        List<UserTaskDto> userTaskDtoList = buildUserTaskDtoListFromUserTaskList(userTasks);
+        Task task = this.taskDao.findByID(taskId);
+        User user = this.userDao.findByID(userId);
+        validateIsNotNull(user, "There is no user with such id");
+        validateIsNotNull(task, "There is no task with such id");
+
+        //todo bestCode
+        String deadline = task.getDeadline().toString();
+        String bestCode = "Sorry there is no any realization :(";
+        String description = task.getDescription();
+        String name = task.getTask_name();
+
+        return new UserTaskAttemptsDto(userTaskDtoList, deadline, bestCode, description, name);
     }
 
 
@@ -102,12 +114,10 @@ public class UserTaskService {
     }
 
     private UserTaskDto buildUserTaskDtoFromUserTask(UserTask userTask) {
-        Task task = userTask.getTask();
-        TaskDto taskDto = this.taskService.buildTaskDtoFromTask(task);
-
-        return new UserTaskDto(userTask.getUserTaskPK(), userTask.getProgress(),
-                userTask.getTime().toString(), " ", task.getDeadline().toString());
+        return new UserTaskDto(userTask.getProgress(),
+                userTask.getTime().toString());
     }
+
     private List<UserTaskDto> buildUserTaskDtoListFromUserTaskList(List<UserTask> userTasks){
         List<UserTaskDto> userTaskDtoList = new ArrayList<>();
         userTasks.forEach(userTask -> userTaskDtoList.add(buildUserTaskDtoFromUserTask(userTask)));

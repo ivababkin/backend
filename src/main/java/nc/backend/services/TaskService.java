@@ -25,12 +25,6 @@ public class TaskService {
         Task task = taskDao.findByID(taskId);
         return buildTaskDtoFromTask(task);
     }
-
-
-    private TaskDto buildTaskDtoFromTask(Task task){
-        if (task == null) {
-            return null;
-        }
   
     public TaskListDto getAllTasks(){
         List<Task> tasks = taskDao.findAllTasks();
@@ -38,6 +32,10 @@ public class TaskService {
     }
 
     public TaskDto buildTaskDtoFromTask(Task task){
+            if (task == null) {
+                return null;
+            }
+
         TaskDto taskDto = new TaskDto();
         taskDto.setAttempts_max(task.getAttempts_max());
         taskDto.setDescription(task.getDescription());

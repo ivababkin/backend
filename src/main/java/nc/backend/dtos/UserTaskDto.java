@@ -28,19 +28,14 @@ public class UserTaskDto {
 
     @Getter
     @Setter
-    private String log;
-
-    @Getter
-    @Setter
     private String code;
 
 
     public UserTaskDto(UserTaskPK userTaskPK, BigDecimal progress,
-                       ZonedDateTime time, String log, String code) {
+                       ZonedDateTime time, String code) {
         this.userTaskPK = userTaskPK;
         this.progress = progress;
         this.time = time;
-        this.log = log;
         this.code = code;
     }
 }

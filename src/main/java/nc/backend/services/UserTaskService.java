@@ -105,7 +105,7 @@ public class UserTaskService {
         TaskDto taskDto = this.taskService.buildTaskDtoFromTask(userTask.getTask());
 
         return new UserTaskDto(userTask.getUserTaskPK(), userTask.getProgress(),
-                userTask.getTime(), " ", " ");
+                userTask.getTime(), " ");
     }
     private List<UserTaskDto> buildUserTaskDtoListFromUserTaskList(List<UserTask> userTasks){
         List<UserTaskDto> userTaskDtoList = new ArrayList<>();

@@ -33,6 +33,7 @@ public class TaskService {
         taskDto.setNumber(task.getNumber());
         taskDto.setName(task.getTask_name());
         taskDto.setSection(task.getSection());
+        taskDto.setDeadline(task.getDeadline());
         return taskDto;
     }
 

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -16,9 +18,8 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/{taskId}")
-    public TaskDto getTask(@PathVariable Long taskId) {
-        return taskService.getTask(taskId);
+    @GetMapping("/all")
+    public List<TaskDto> getAllTasks(){
+        return taskService.getAllTasks();
     }
-
 }

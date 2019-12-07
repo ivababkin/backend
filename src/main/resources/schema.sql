@@ -48,10 +48,9 @@ CREATE TABLE IF NOT EXISTS users_tasks  (
     task_id BIGINT REFERENCES tasks(id),
     progress NUMERIC NOT NULL,
     path_result VARCHAR(255) NOT NULL,
+    path_upload VARCHAR(255) NOT NULL,
     attempt_number INTEGER NOT NULL,
     time TIMESTAMP NOT NULL,
-    log VARCHAR(255) NOT NULL,
-    code VARCHAR(1000) NOT NULL,
-    CONSTRAINT users_tasks_pk PRIMARY KEY (user_id, task_id)
+    CONSTRAINT users_tasks_pk PRIMARY KEY (user_id, task_id, attempt_number)
 );
 

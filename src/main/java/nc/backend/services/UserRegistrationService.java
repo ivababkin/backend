@@ -45,4 +45,10 @@ public class UserRegistrationService {
 
         return userDataService.buildUserDtoFromUser(user);
     }
+
+
+    public void deleteUserById(Long userId) {
+        logger.info("----------try to delete user-- " + userId);
+        userDao.deleteById(userId);
+    }
 }

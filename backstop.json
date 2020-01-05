@@ -16,10 +16,9 @@
   "onReadyScript": "puppet/onReady.js",
   "scenarios": [
     {
-      "label": "BackstopJS Homepage",
-      "cookiePath": "backstop_data/engine_scripts/cookies.json",
-      "url": "https://garris.github.io/BackstopJS/",
-      "referenceUrl": "",
+      "label": "MyFirstTest",
+      "url": "https://www.memes.com",
+      "referenceUrl": "https://www.dreamworks.com/movies/shrek",
       "readyEvent": "",
       "readySelector": "",
       "delay": 0,

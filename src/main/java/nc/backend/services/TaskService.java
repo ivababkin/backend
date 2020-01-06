@@ -39,10 +39,9 @@ public class TaskService {
         TaskDto taskDto = new TaskDto();
         taskDto.setAttempts_max(task.getAttempts_max());
         taskDto.setDescription(task.getDescription());
-        taskDto.setNumber(task.getNumber());
         taskDto.setName(task.getTask_name());
-        taskDto.setSection(task.getSection());
-        taskDto.setDeadline(task.getDeadline());
+        taskDto.setDeadline(task.getDeadline().toString());
+        taskDto.setUrlSample(task.getFile_path());
         return taskDto;
     }
 

@@ -17,4 +17,5 @@ public interface UserDao extends CrudRepository<User, Long> {
 
     @Query("SELECT user FROM User user WHERE user.login = :login")
     User findByUserLogin(@Param("login") String login);
+
 }

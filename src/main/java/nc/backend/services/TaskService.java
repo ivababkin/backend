@@ -4,6 +4,9 @@ import nc.backend.daos.TaskDao;
 import nc.backend.dtos.TaskDto;
 import nc.backend.dtos.TaskListDto;
 import nc.backend.entities.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import java.util.List;
 @Service
 public class TaskService {
     private TaskDao taskDao;
+    private static Logger logger = LoggerFactory.getLogger(UserRegistrationService.class);
 
     public TaskService(TaskDao taskDao){
         this.taskDao = taskDao;
@@ -21,20 +25,23 @@ public class TaskService {
         Task task = taskDao.findByID(taskId);
         return buildTaskDtoFromTask(task);
     }
-
+  
     public TaskListDto getAllTasks(){
         List<Task> tasks = taskDao.findAllTasks();
         return buildTaskDtoListFromTaskList(tasks);
     }
 
     public TaskDto buildTaskDtoFromTask(Task task){
+            if (task == null) {
+                return null;
+            }
+
         TaskDto taskDto = new TaskDto();
         taskDto.setAttempts_max(task.getAttempts_max());
         taskDto.setDescription(task.getDescription());
-        taskDto.setNumber(task.getNumber());
         taskDto.setName(task.getTask_name());
-        taskDto.setSection(task.getSection());
-        taskDto.setDeadline(task.getDeadline());
+        taskDto.setDeadline(task.getDeadline().toString());
+        taskDto.setUrlSample(task.getFile_path());
         return taskDto;
     }
 

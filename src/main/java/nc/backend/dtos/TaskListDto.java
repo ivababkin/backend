@@ -13,9 +13,9 @@ import java.util.List;
 public class TaskListDto {
     @Getter
     @Setter
-    private List<TaskDto> taskDtoList;
+    private List<TaskDto> taskList;
 
-    public TaskListDto(List<TaskDto> taskDtoList) {
-        this.taskDtoList = taskDtoList;
+    public TaskListDto(List<TaskDto> taskList) {
+        this.taskList = taskList;
     }
 }

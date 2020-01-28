@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,12 +28,12 @@ public class UserAuthenticationService {
         this.userService = userService;
     }
 
-    public AuthenticationAnswerDto login(AuthenticationRequestDto requestDto){
+    public AuthenticationAnswerDto login(AuthenticationRequestDto requestDto)
+            throws UsernameNotFoundException, BadCredentialsException{
         try {
             String username = requestDto.getUsername();
             User user = userService.findByUserLogin(username);
-
-            if (user == null) {
+            if ((user == null) || (!BCrypt.checkpw(requestDto.getPassword(), user.getPassword()))) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found");
             }
 
@@ -41,7 +42,7 @@ public class UserAuthenticationService {
             String token = jwtTokenProvider.createToken(username, roles);
 
             return new AuthenticationAnswerDto(username, token);
-        } catch (AuthenticationException e) {
+        } catch (UsernameNotFoundException e) {
             throw new BadCredentialsException("Invalid username or password");
         }
     }

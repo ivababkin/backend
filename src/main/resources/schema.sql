@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS tasks  (
     number INTEGER NOT NULL,
     section VARCHAR(255) NOT NULL,
     deadline TIMESTAMP NOT NULL,
-    description VARCHAR(1000) UNIQUE NOT NULL,
+    description VARCHAR(2000) UNIQUE NOT NULL,
     file_path VARCHAR(100) UNIQUE,
     attempts_max INTEGER,
     task_name VARCHAR(100) UNIQUE

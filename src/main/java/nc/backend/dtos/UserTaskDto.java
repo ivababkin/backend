@@ -20,9 +20,24 @@ public class UserTaskDto {
     @Setter
     private String time;
 
+    @Setter
+    @Getter
+    private String urlUserPicture;
+
+    @Setter
+    @Getter
+    private String urlSamplePicture;
+
     public UserTaskDto(BigDecimal progress,
                        String time) {
         this.progress = progress;
         this.time = time;
+    }
+
+    public UserTaskDto(BigDecimal progress, String time, String urlUserPicture, String urlSamplePicture) {
+        this.progress = progress;
+        this.time = time;
+        this.urlUserPicture = urlUserPicture;
+        this.urlSamplePicture = urlSamplePicture;
     }
 }

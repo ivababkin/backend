@@ -14,10 +14,6 @@ public class BackstopTestService {
     @Autowired
     UserTaskService userTaskService;
 
-    private static String readUsingFiles(String fileName) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(fileName)));
-    }
-
     public void prepareBackstopJson(Long userId, Long taskId) throws IOException {
         Gson gson = new Gson();
         BackstopClass backstop = gson.fromJson(new FileReader("./backstop.json"), BackstopClass.class);

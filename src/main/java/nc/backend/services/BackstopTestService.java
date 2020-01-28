@@ -21,7 +21,6 @@ public class BackstopTestService {
     public void prepareBackstopJson(Long userId, Long taskId) throws IOException {
         Gson gson = new Gson();
         BackstopClass backstop = gson.fromJson(new FileReader("./backend/backstop.json"), BackstopClass.class);
-        //backstop.scenarios.get(0).setUrl("/upload/" + userId + "/" + taskId + "/" + "testhtml.html");
         backstop.scenarios.get(0).setUrl("/upload/" + userId + "/" + taskId + "/" +
                 (userTaskService.getNumberOfAttempts(userId, taskId) + 1) + ".html");
         backstop.scenarios.get(0).setReferenceUrl("/TaskReferences/" + taskId + ".html");

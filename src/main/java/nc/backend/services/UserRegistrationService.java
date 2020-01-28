@@ -35,13 +35,11 @@ public class UserRegistrationService {
     }
 
     public UserDto registerUser(UserRegistrationDto userRegistrationObject) {
-        logger.info("----------try to save user-----------");
         User user = buildUserFromUserRegistrationDto(userRegistrationObject);
         String encodedPassword = bCryptPasswordEncoder.encode(userRegistrationObject.getPassword());
-        logger.info("---------------------" + userRegistrationObject.getPassword());
         user.setPassword(encodedPassword);
         userDao.save(user);
-        logger.info("----------User saved-----------", user);
+        logger.info("----------User saved--", user);
 
         return userDataService.buildUserDtoFromUser(user);
     }

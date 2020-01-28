@@ -1,4 +1,4 @@
-package nc.backend.jsonParser;
+package nc.backend.jsonBackstopParser;
 
 public class Paths {
     public String bitmaps_reference;

@@ -14,54 +14,36 @@ public class BackstopTestService {
     @Autowired
     UserTaskService userTaskService;
 
-    /*public BackstopTestService() {
-        taskService = new TaskService(taskDao);
-        UserTaskService userTaskService = new UserTaskService(UserTaskDao userTaskDao, TaskService taskService, UserDao userDao, TaskDao taskDao);
-    }*/
-
-
-    private static String readUsingFiles(String fileName) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(fileName)));
-    }
-
     public void prepareBackstopJson(Long userId, Long taskId) throws IOException {
         Gson gson = new Gson();
-        BackstopClass backstop = gson.fromJson(new FileReader("/home/ivan/Рабочий стол/backend/backstop.json"), BackstopClass.class);
-        //backstop.scenarios.get(0).setUrl("/upload/" + userId + "/" + taskId + "/" + "testhtml.html");
+        BackstopClass backstop = gson.fromJson(new FileReader("./backstop.json"), BackstopClass.class);
         backstop.scenarios.get(0).setUrl("/upload/" + userId + "/" + taskId + "/" +
                 (userTaskService.getNumberOfAttempts(userId, taskId) + 1) + ".html");
         backstop.scenarios.get(0).setReferenceUrl("/TaskReferences/" + taskId + ".html");
-        FileWriter writer = new FileWriter("/home/ivan/Рабочий стол/backend/backstop.json");
+        FileWriter writer = new FileWriter("./backstop.json");
         gson.toJson(backstop, writer);
         writer.flush();
+    }
+
+    public void runProcess(String command) {
+        try{
+            Process pr = Runtime.getRuntime().exec(command);
+            try(BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()))) {
+                String line;
+                while ((line = input.readLine()) != null) {
+                    System.out.println(line);
+                }
+            }
+        } catch(Exception e){
+            System.out.println("e: "+ e.toString());
+        }
+
     }
 
     public void runTest(Long userId, Long taskId) throws IOException {
 
         prepareBackstopJson(userId, taskId);
-
-        try{
-            Process pr = Runtime.getRuntime().exec("backstop reference");
-            try(BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()))) {
-                String line;
-                while ((line = input.readLine()) != null) {
-                    System.out.println(line);
-                }
-            }
-        } catch(Exception e){
-            System.out.println("e: "+ e.toString());
-        }
-
-        try{
-            Process pr = Runtime.getRuntime().exec("backstop test");
-            try(BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()))) {
-                String line;
-                while ((line = input.readLine()) != null) {
-                    System.out.println(line);
-                }
-            }
-        } catch(Exception e){
-            System.out.println("e: "+ e.toString());
-        }
+        runProcess("backstop reference");
+        runProcess("backstop test");
     }
 }

@@ -56,7 +56,7 @@ public class UserTaskController {
         Date beforeTest = new Date();
         this.backstopTestService.runTest(userId, taskId);
         Date afterTest = new Date();
-        this.userTaskService.insertUserTask(file, userId, taskId, beforeTest, afterTest);
+        this.userTaskService.insertUserTask(userId, taskId, beforeTest, afterTest);
 
         return new ResponseEntity<>("Success upload" + file.getOriginalFilename(), HttpStatus.OK);
     }

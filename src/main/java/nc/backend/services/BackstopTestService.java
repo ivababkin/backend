@@ -29,32 +29,25 @@ public class BackstopTestService {
         writer.flush();
     }
 
+    public void runProcess(String command) {
+        try{
+            Process pr = Runtime.getRuntime().exec(command);
+            try(BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()))) {
+                String line;
+                while ((line = input.readLine()) != null) {
+                    System.out.println(line);
+                }
+            }
+        } catch(Exception e){
+            System.out.println("e: "+ e.toString());
+        }
+
+    }
+
     public void runTest(Long userId, Long taskId) throws IOException {
 
         prepareBackstopJson(userId, taskId);
-
-        try{
-            Process pr = Runtime.getRuntime().exec("backstop reference");
-            try(BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()))) {
-                String line;
-                while ((line = input.readLine()) != null) {
-                    System.out.println(line);
-                }
-            }
-        } catch(Exception e){
-            System.out.println("e: "+ e.toString());
-        }
-
-        try{
-            Process pr = Runtime.getRuntime().exec("backstop test");
-            try(BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()))) {
-                String line;
-                while ((line = input.readLine()) != null) {
-                    System.out.println(line);
-                }
-            }
-        } catch(Exception e){
-            System.out.println("e: "+ e.toString());
-        }
+        runProcess("backstop reference");
+        runProcess("backstop test");
     }
 }

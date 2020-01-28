@@ -73,6 +73,11 @@ public class UserTaskService {
         validateIsNotNull(user, "There is no user with such id");
         validateIsNotNull(task, "There is no task with such id");
 
+        int attemptsNumber = this.getNumberOfAttempts(userId, taskId);
+        if (attemptsNumber == task.getAttempts_max()){
+            throw new ValidationException("Limited max attempts number");
+        }
+
         File uploadFolder = createFolder("", this.UPLOAD_PATH);
         File userFolder= createFolder(this.UPLOAD_PATH, String.valueOf(userId));
         File userTaskFolder = createFolder(this.UPLOAD_PATH + "/" + userFolder.getName(), String.valueOf(taskId));

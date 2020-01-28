@@ -33,6 +33,12 @@ public class UserTask {
     @Setter
     private String path_result;
 
+    @Column(name = "PATH_UPLOAD")
+    @NotNull
+    @Getter
+    @Setter
+    private String path_upload;
+
     @Column(name = "TIME")
     @Getter
     @Setter
@@ -60,4 +66,14 @@ public class UserTask {
         this.user = user;
         this.task = task;
     }
+
+    public UserTask(UserTaskPK userTaskPK, BigDecimal progress, String path_result, String path_upload,
+                    ZonedDateTime time) {
+        this.userTaskPK = userTaskPK;
+        this.progress = progress;
+        this.path_result = path_result;
+        this.path_upload = path_upload;
+        this.time = time;
+    }
+
 }

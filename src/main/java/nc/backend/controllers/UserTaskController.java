@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,6 +39,12 @@ public class UserTaskController {
         return userTaskService.getUserTasks(userId, taskId);
     }
 
+    @GetMapping("/taskCount")
+    public int getNumberOfAttempts(@RequestParam(value = "userId", required = false) Long userId,
+                                            @RequestParam(value = "taskId", required = false) Long taskId) throws ValidationException {
+        return userTaskService.getNumberOfAttempts(userId, taskId);
+    }
+
     //todo answer image
     @PostMapping("/upload")
     public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file,
@@ -46,8 +53,10 @@ public class UserTaskController {
             throws ValidationException, IOException, JSONException {
 
         this.userTaskService.uploadFile(file, userId, taskId);
-
+        Date beforeTest = new Date();
         this.backstopTestService.runTest(userId, taskId);
+        Date afterTest = new Date();
+        this.userTaskService.insertUserTask(file, userId, taskId, beforeTest, afterTest);
 
         return new ResponseEntity<>("Success upload" + file.getOriginalFilename(), HttpStatus.OK);
     }

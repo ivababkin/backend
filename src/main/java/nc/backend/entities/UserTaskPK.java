@@ -36,8 +36,8 @@ public class UserTaskPK implements Serializable {
         this.attempt_number = attempt_number;
     }
 
-    public UserTaskPK(Long userId, Long taskId) {
-        this.userId = userId;
-        this.taskId = taskId;
-    }
+    //public UserTaskPK(Long userId, Long taskId) {
+    //    this.userId = userId;
+    //    this.taskId = taskId;
+    //}
 }

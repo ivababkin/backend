@@ -1,4 +1,4 @@
-package nc.backend.jsonParser;
+package nc.backend.jsonBackstopParser;
 
 import lombok.Getter;
 import lombok.Setter;

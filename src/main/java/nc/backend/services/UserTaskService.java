@@ -169,9 +169,7 @@ public class UserTaskService {
 
 
     public void insertUserTask(MultipartFile file, Long userId, Long taskId, Date beforeTest, Date afterTest) throws FileNotFoundException {
-
         UserTask userTask = generateUserTask(userId, taskId, beforeTest, afterTest);
         userTaskDao.save(userTask);
-
     }
 }

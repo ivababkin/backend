@@ -6,13 +6,14 @@ import nc.backend.dtos.UserDto;
 import nc.backend.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @Slf4j
 public class UserService {
-
+    //@Autowired
     private UserDao userDao;
     private UserDataService userDataService;
     private static Logger logger = LoggerFactory.getLogger(UserRegistrationService.class);
@@ -29,14 +30,14 @@ public class UserService {
     }
 
     public UserDto getUserByEmail(String userEmail){
-        logger.info("----------try to getUserByEmail-----------");
+        logger.info("----------try to getUserByEmail " + userEmail);
         User user = userDao.findByEmail(userEmail);
+        UserDto userDto = this.userDataService.buildUserDtoFromUser(user);
         return this.userDataService.buildUserDtoFromUser(user);
     }
 
     public User findByUserLogin(String login){
         User user = this.userDao.findByUserLogin(login);
-
         System.out.println(user.getLogin());
         logger.info("IN findByUserLogin - user: {} found by login: {}", user.toString(), login);
         return user;

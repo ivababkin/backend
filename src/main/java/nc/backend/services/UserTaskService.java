@@ -21,10 +21,7 @@ import java.io.*;
 import java.nio.file.NoSuchFileException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.math.BigDecimal;
 
 import static nc.backend.common.utils.ValidationUtils.validateIsNotNull;
@@ -60,13 +57,7 @@ public class UserTaskService {
         validateIsNotNull(user, "There is no user with such id");
         validateIsNotNull(task, "There is no task with such id");
 
-        //todo bestCode
-        String deadline = task.getDeadline().toString();
-        String bestCode = "Sorry there is no any realization :(";
-        String description = task.getDescription();
-        String name = task.getTask_name();
-
-        return new UserTaskAttemptsDto(userTaskDtoList, deadline, bestCode, description, name);
+        return new UserTaskAttemptsDto(userTaskDtoList);
     }
 
 
@@ -81,6 +72,11 @@ public class UserTaskService {
         Task task = this.taskDao.findByID(taskId);
         validateIsNotNull(user, "There is no user with such id");
         validateIsNotNull(task, "There is no task with such id");
+
+        int attemptsNumber = this.getNumberOfAttempts(userId, taskId);
+        if (attemptsNumber == task.getAttempts_max()){
+            throw new ValidationException("Limited max attempts number");
+        }
 
         File uploadFolder = createFolder("", this.UPLOAD_PATH);
         File userFolder= createFolder(this.UPLOAD_PATH, String.valueOf(userId));
@@ -101,12 +97,6 @@ public class UserTaskService {
         logger.info("File has uploaded" + " " + file.getOriginalFilename());
     }
 
-    //todo recording user tasks into db
-    private UserTask recordUserTask(){
-        return null;
-    }
-
-
     private File createFolder(String path, String name) throws NoSuchFileException {
         File folder = new File(path, name);
         if(!folder.exists()){
@@ -116,14 +106,23 @@ public class UserTaskService {
         return folder;
     }
 
-    private UserTaskDto buildUserTaskDtoFromUserTask(UserTask userTask) {
-        return new UserTaskDto(userTask.getProgress(),
-                userTask.getTime().toString());
-    }
-
     private List<UserTaskDto> buildUserTaskDtoListFromUserTaskList(List<UserTask> userTasks){
         List<UserTaskDto> userTaskDtoList = new ArrayList<>();
-        userTasks.forEach(userTask -> userTaskDtoList.add(buildUserTaskDtoFromUserTask(userTask)));
+
+        userTasks.sort((first, second) -> -first.getTime().compareTo(second.getTime()));
+        userTasks.sort((first, second) -> -first.getProgress().compareTo(second.getProgress()));
+
+        userTasks.forEach(userTask -> {
+            if (userTasks.get(0).equals(userTask)){
+                userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
+                        userTask.getTime().toString(), userTask.getPath_result(),
+                        userTask.getPath_upload()));
+            }
+            else{
+                userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
+                        userTask.getTime().toString()));
+            }
+        });
         return userTaskDtoList;
     }
 
@@ -131,8 +130,6 @@ public class UserTaskService {
         List<UserTask> userTasks = userTaskDao.findByUserIdAndTaskId(userId, taskId);
         return userTasks.size();
     }
-
-
 
     public String getReportPath(Date beforeTest, Date afterTest) {
         SimpleDateFormat formatForDate = new SimpleDateFormat("yyyyMMdd-HHmmss");
@@ -164,7 +161,8 @@ public class UserTaskService {
         String path_upload = report.tests.get(0).pair.url;
         System.out.println("STATUS OF TEST: " + report.tests.get(0).status + "|  mismatch: " + report.tests.get(0).pair.diff.misMatchPercentage + "%");
 
-        return new UserTask(userTaskPK, new BigDecimal(mismatch), path_result, path_upload, ZonedDateTime.now());
+        BigDecimal mismatchDec = new BigDecimal(mismatch);
+        return new UserTask(userTaskPK, new BigDecimal(100).subtract(mismatchDec), path_result, path_upload, ZonedDateTime.now());
     }
 
 

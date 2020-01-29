@@ -39,12 +39,6 @@ public class UserTaskController {
         return userTaskService.getUserTasks(userId, taskId);
     }
 
-    @GetMapping("/taskCount")
-    public int getNumberOfAttempts(@RequestParam(value = "userId", required = false) Long userId,
-                                            @RequestParam(value = "taskId", required = false) Long taskId) throws ValidationException {
-        return userTaskService.getNumberOfAttempts(userId, taskId);
-    }
-
     //todo answer image
     @PostMapping("/upload")
     public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file,

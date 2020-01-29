@@ -14,6 +14,7 @@ import nc.backend.entities.UserTaskPK;
 import nc.backend.jsonReportParser.ReportClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +36,8 @@ public class UserTaskService {
 
     private static Logger logger = LoggerFactory.getLogger(UserRegistrationService.class);
     private final String UPLOAD_PATH = "upload";
+    @Autowired
+    private BackstopTestService backstopTestService;
 
 
     public UserTaskService(UserTaskDao userTaskDao, TaskService taskService, UserDao userDao, TaskDao taskDao) {
@@ -91,6 +94,19 @@ public class UserTaskService {
             fileOutputStream.write(file.getBytes());
             fileOutputStream.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Date beforeTest = new Date();
+        try {
+            this.backstopTestService.runTest(userId, taskId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Date afterTest = new Date();
+        try {
+            insertUserTask(userId, taskId, beforeTest, afterTest);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 

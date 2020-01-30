@@ -47,10 +47,6 @@ public class UserTaskController {
             throws ValidationException, IOException, JSONException {
 
         this.userTaskService.uploadFile(file, userId, taskId);
-        Date beforeTest = new Date();
-        this.backstopTestService.runTest(userId, taskId);
-        Date afterTest = new Date();
-        this.userTaskService.insertUserTask(userId, taskId, beforeTest, afterTest);
 
         return new ResponseEntity<>("Success upload" + file.getOriginalFilename(), HttpStatus.OK);
     }

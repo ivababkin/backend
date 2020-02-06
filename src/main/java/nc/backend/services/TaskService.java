@@ -28,6 +28,7 @@ public class TaskService {
   
     public TaskListDto getAllTasks(){
         List<Task> tasks = taskDao.findAllTasks();
+        logger.info("-----Tasks are sent-----");
         return buildTaskDtoListFromTaskList(tasks);
     }
 

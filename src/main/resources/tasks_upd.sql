@@ -15,4 +15,4 @@ UPDATE public.tasks SET number = 1, section = 'basic', deadline = '2020-08-30 14
 <ul><li>Элемент списка</ul></li> <!-- Плохо  -->
 <ul><li>Элемент списка</li></ul> <!-- Хорошо -->
 
-И ещё, не все теги можно вкладывать в другие теги, например уже знакомый вам тег <h1> нельзя вкладывать в <p>. Эти правила вложенности для каждого тега вы узнаете постепенно по ходу изучения HTML.', file_path = 'TaskReferences/1.html', attempts_max = 10, task_name = 'Вложенные теги' WHERE id = 1;
+И ещё, не все теги можно вкладывать в другие теги, например уже знакомый вам тег <h1> нельзя вкладывать в <p>. Эти правила вложенности для каждого тега вы узнаете постепенно по ходу изучения HTML.', file_path = 'TaskReferences/backstop_default_BackstopJS_Homepage_0_document_0_phone.png', attempts_max = 10, task_name = 'Вложенные теги' WHERE id = 1;

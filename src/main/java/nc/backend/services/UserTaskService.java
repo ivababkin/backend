@@ -174,7 +174,8 @@ public class UserTaskService {
         String path_result = report.tests.get(0).pair.diffImage;
         if (path_result == null) path_result = report.tests.get(0).pair.test;
 
-        String path_upload = report.tests.get(0).pair.url;
+        //String path_upload = report.tests.get(0).pair.url;
+        String path_upload = report.tests.get(0).pair.test;
         System.out.println("STATUS OF TEST: " + report.tests.get(0).status + "|  mismatch: " + report.tests.get(0).pair.diff.misMatchPercentage + "%");
 
         BigDecimal mismatchDec = new BigDecimal(mismatch);

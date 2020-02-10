@@ -20,20 +20,26 @@ public class FileStorageService {
 
     public Resource loadFile(String filename) {
         try {
+            String filenameTmp = null;
             if (filename.contains("basic") || filename.contains("levelUp")
                     || filename.contains("advanced")){
+
+                filenameTmp = filename;
                 this.rootLocation = Paths.get("TaskReferences");
             }
 
             else if (filename.contains("backstop")){
-                this.rootLocation = Paths.get("backstop_data");
+                int start = filename.indexOf("--");
+                String testTime = filename.substring(0, start);
+                filenameTmp = filename.substring(start + 2);
+                this.rootLocation = Paths.get("backstop_data/bitmaps_test/" + testTime);
             }
 
             else{
                 throw new NoSuchFileException("Attempt to retrieve wrong file");
             }
 
-            Path file = this.rootLocation.resolve(filename);
+            Path file = this.rootLocation.resolve(filenameTmp);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;

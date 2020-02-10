@@ -133,7 +133,7 @@ public class UserTaskService {
                 userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
                         userTask.getTime().toString(), userTask.getPath_result().substring(16)
                         .replace("/", "--"),
-                        userTask.getPath_upload().replace("/", "--")));
+                        userTask.getPath_upload().substring(16).replace("/", "--")));
             }
             else{
                 userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),

@@ -20,6 +20,8 @@ public class BackstopTestService {
         backstop.scenarios.get(0).setUrl("/upload/" + userId + "/" + taskId + "/" +
                 (userTaskService.getNumberOfAttempts(userId, taskId) + 1) + ".html");
         backstop.scenarios.get(0).setReferenceUrl("/TaskReferences/" + taskId + ".html");
+        backstop.report.clear();
+        backstop.report.add("");
         FileWriter writer = new FileWriter("./backstop.json");
         gson.toJson(backstop, writer);
         writer.flush();

@@ -39,7 +39,6 @@ public class UserService {
     public User findByUserLogin(String login){
         User user = this.userDao.findByUserLogin(login);
         System.out.println(user.getLogin());
-        logger.info("IN findByUserLogin - user: {} found by login: {}", user.toString(), login);
         return user;
     }
 

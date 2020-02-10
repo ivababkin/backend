@@ -9,25 +9,39 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
 public class FileStorageService {
     Logger log = LoggerFactory.getLogger(this.getClass().getName());
-    private Path rootLocation = Paths.get("upload");
+    private Path rootLocation = Paths.get("");
 
     public Resource loadFile(String filename) {
         try {
-            Path file = rootLocation.resolve(filename);
+            if (filename.contains("basic") || filename.contains("levelUp")
+                    || filename.contains("advanced")){
+                this.rootLocation = Paths.get("TaskReferences");
+            }
+
+            else if (filename.contains("backstop")){
+                this.rootLocation = Paths.get("backstop_data");
+            }
+
+            else{
+                throw new NoSuchFileException("Attempt to retrieve wrong file");
+            }
+
+            Path file = this.rootLocation.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("FAIL!");
+                throw new RuntimeException("File doesn't exist");
             }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("FAIL!");
+        } catch (MalformedURLException | NoSuchFileException e) {
+            throw new RuntimeException("Can't load asked file");
         }
     }
 
@@ -37,7 +51,7 @@ public class FileStorageService {
                 Files.createDirectory(this.rootLocation);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Could not initialize storage!");
+            throw new RuntimeException("Can't initialize storage");
         }
     }
 }

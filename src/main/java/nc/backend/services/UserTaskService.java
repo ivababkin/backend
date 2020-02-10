@@ -131,8 +131,9 @@ public class UserTaskService {
         userTasks.forEach(userTask -> {
             if (userTasks.get(0).equals(userTask)){
                 userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
-                        userTask.getTime().toString(), userTask.getPath_result(),
-                        userTask.getPath_upload()));
+                        userTask.getTime().toString(), userTask.getPath_result().substring(16)
+                        .replace("/", "--"),
+                        userTask.getPath_upload().replace("/", "--")));
             }
             else{
                 userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),

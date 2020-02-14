@@ -125,20 +125,12 @@ public class UserTaskService {
     private List<UserTaskDto> buildUserTaskDtoListFromUserTaskList(List<UserTask> userTasks){
         List<UserTaskDto> userTaskDtoList = new ArrayList<>();
 
-        userTasks.sort((first, second) -> -first.getTime().compareTo(second.getTime()));
-        userTasks.sort((first, second) -> -first.getProgress().compareTo(second.getProgress()));
-
         userTasks.forEach(userTask -> {
-            if (userTasks.get(0).equals(userTask)){
-                userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
-                        userTask.getTime().toString(), userTask.getPath_result().substring(16)
-                        .replace("/", "--"),
-                        userTask.getPath_upload().substring(16).replace("/", "--")));
-            }
-            else{
-                userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
-                        userTask.getTime().toString()));
-            }
+            userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
+                    userTask.getTime().toString(), userTask.getPath_result().substring(16)
+                    .replace("/", "--"),
+                    userTask.getPath_upload().substring(16).replace("/", "--")));
+
         });
         return userTaskDtoList;
     }

@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String REGISTER_ENDPOINT = "/register";
     private final String AUTH_ENDPOINT = "/auth";
     private final String FILE_ENDPOINT = "/files";
-    
+
     @Autowired
     public WebSecurityConfig(DataSource dataSource, JwtTokenProvider jwtTokenProvider) {
         this.dataSource = dataSource;

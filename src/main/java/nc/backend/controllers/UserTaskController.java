@@ -36,13 +36,15 @@ public class UserTaskController {
 
     //todo answer image
     @PostMapping("/upload")
-    public UploadDto uploadFile(@RequestParam("file") MultipartFile file,
-                                @RequestParam(value = "userId", required = false) Long userId,
-                                @RequestParam(value = "taskId", required = false) Long taskId)
+    @ResponseBody
+    public ResponseEntity<UploadDto> uploadFile(@RequestParam("file") MultipartFile file,
+                                                @RequestParam(value = "userId", required = false) Long userId,
+                                                @RequestParam(value = "taskId", required = false) Long taskId)
             throws ValidationException, IOException, JSONException {
 
         this.userTaskService.uploadFile(file, userId, taskId);
 
-        return new UploadDto("Success upload " + file.getOriginalFilename());
+        System.out.println(file.getOriginalFilename());
+        return new ResponseEntity<UploadDto>(new UploadDto("Success upload " + file.getOriginalFilename()), HttpStatus.OK);
     }
 }

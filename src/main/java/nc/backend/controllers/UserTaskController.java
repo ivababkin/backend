@@ -1,10 +1,8 @@
 package nc.backend.controllers;
 
 import nc.backend.common.utils.ValidationException;
-import nc.backend.dtos.TaskDto;
+import nc.backend.dtos.UploadDto;
 import nc.backend.dtos.UserTaskAttemptsDto;
-import nc.backend.dtos.UserTaskDto;
-import nc.backend.entities.UserTaskPK;
 import nc.backend.services.BackstopTestService;
 import nc.backend.services.UserTaskService;
 import org.json.JSONException;
@@ -15,9 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
-import java.util.Date;
-import java.util.List;
 
 
 @RestController
@@ -41,13 +36,13 @@ public class UserTaskController {
 
     //todo answer image
     @PostMapping("/upload")
-    public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file,
-                                             @RequestParam(value = "userId", required = false) Long userId,
-                                             @RequestParam(value = "taskId", required = false) Long taskId)
+    public UploadDto uploadFile(@RequestParam("file") MultipartFile file,
+                                @RequestParam(value = "userId", required = false) Long userId,
+                                @RequestParam(value = "taskId", required = false) Long taskId)
             throws ValidationException, IOException, JSONException {
 
         this.userTaskService.uploadFile(file, userId, taskId);
 
-        return new ResponseEntity<>("Success upload" + file.getOriginalFilename(), HttpStatus.OK);
+        return new UploadDto("Success upload " + file.getOriginalFilename());
     }
 }

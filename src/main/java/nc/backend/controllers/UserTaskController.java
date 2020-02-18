@@ -8,13 +8,13 @@ import nc.backend.services.UserTaskService;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
+import java.nio.file.NoSuchFileException;
+import java.util.*;
 
 
 @RestController
@@ -36,18 +36,30 @@ public class UserTaskController {
         return userTaskService.getUserTasks(userId, taskId);
     }
 
-    //todo answer image
     @PostMapping(value = "/upload")
     @ResponseBody
-    public ResponseEntity<UploadDto> uploadFile(@RequestParam("file") MultipartFile file,
-                                                @RequestParam(value = "fileCss", required = false) MultipartFile[] fileCss,
+    public ResponseEntity<UploadDto> uploadFile(@RequestParam("files[]") MultipartFile[] files,
                                                 @RequestParam(value = "userId", required = false) Long userId,
                                                 @RequestParam(value = "taskId", required = false) Long taskId)
             throws ValidationException, IOException, JSONException {
 
-        this.userTaskService.uploadFile(file, userId, taskId);
+        List<MultipartFile> multipartFileArrayList = new ArrayList<>();
+        Collections.addAll(multipartFileArrayList, files);
+        List<String> fileNamesHtml = new ArrayList<String>();
+        multipartFileArrayList.forEach(file -> {
+            if (file.getOriginalFilename().contains(".html")){
+                fileNamesHtml.add(file.getOriginalFilename());
+            }
+        });
 
-        System.out.println(file.getOriginalFilename());
-        return new ResponseEntity<UploadDto>(new UploadDto("Success upload " + file.getOriginalFilename()), HttpStatus.OK);
+        if (fileNamesHtml.size() > 1){
+            throw new NoSuchFileException("Don't try to hack me with your htmls");
+        }
+
+        for (MultipartFile file : files){
+            this.userTaskService.uploadFile(file, userId, taskId);
+        }
+
+        return new ResponseEntity<UploadDto>(new UploadDto("Success upload"), HttpStatus.OK);
     }
 }

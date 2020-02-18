@@ -8,11 +8,13 @@ import nc.backend.services.UserTaskService;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -35,9 +37,10 @@ public class UserTaskController {
     }
 
     //todo answer image
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload")
     @ResponseBody
     public ResponseEntity<UploadDto> uploadFile(@RequestParam("file") MultipartFile file,
+                                                @RequestParam(value = "fileCss", required = false) MultipartFile[] fileCss,
                                                 @RequestParam(value = "userId", required = false) Long userId,
                                                 @RequestParam(value = "taskId", required = false) Long taskId)
             throws ValidationException, IOException, JSONException {

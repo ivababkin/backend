@@ -56,6 +56,10 @@ public class UserTaskController {
             throw new NoSuchFileException("Don't try to hack me with your htmls");
         }
 
+        if (fileNamesHtml.size() == 0){
+            throw new NoSuchFileException("None html file was provided");
+        }
+
         for (MultipartFile file : files){
             this.userTaskService.uploadFile(file, userId, taskId);
         }

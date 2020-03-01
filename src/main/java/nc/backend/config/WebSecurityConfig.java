@@ -26,8 +26,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
     private JwtTokenProvider jwtTokenProvider;
 
-   // private final String REGISTER_ENDPOINT = "/register";
-    private final String AUTH_ENDPOINT = "/**";
+    private final String REGISTER_ENDPOINT = "/register";
+    private final String AUTH_ENDPOINT = "/auth";
+    private final String FILE_ENDPOINT = "/files/*.png";
+    private final String ALL_ENDPOINT = "/**";
 
     @Autowired
     public WebSecurityConfig(DataSource dataSource, JwtTokenProvider jwtTokenProvider) {
@@ -58,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(AUTH_ENDPOINT).permitAll()
+                .antMatchers(REGISTER_ENDPOINT, AUTH_ENDPOINT, FILE_ENDPOINT).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

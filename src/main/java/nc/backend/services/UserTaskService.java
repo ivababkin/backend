@@ -68,25 +68,42 @@ public class UserTaskService {
     public void uploadFile(MultipartFile file, Long userId, Long taskId) throws ValidationException, NoSuchFileException {
         validateIsNotNull(file.getOriginalFilename(), "Uploaded file has null name");
 
-        if (!Objects.equals(file.getContentType(), "text/html")) {
+        if (!file.getOriginalFilename().contains(".html") &&
+                !file.getOriginalFilename().contains(".css")
+        && !file.getOriginalFilename().contains(".js")) {
             throw new NoSuchFileException("Wrong file type");
         }
+
         User user = this.userDao.findByID(userId);
         Task task = this.taskDao.findByID(taskId);
         validateIsNotNull(user, "There is no user with such id");
         validateIsNotNull(task, "There is no task with such id");
+
+        File uploadedFile = null;
+        File uploadFolder = createFolder("", this.UPLOAD_PATH);
+        File userFolder= createFolder(this.UPLOAD_PATH, String.valueOf(userId));
+        File userTaskFolder = createFolder(this.UPLOAD_PATH + "/" + userFolder.getName(), String.valueOf(taskId));
+
+        if (file.getOriginalFilename().contains(".html")){
+            uploadedFile = new File(this.UPLOAD_PATH + "/" + userFolder.getName()
+                    + "/" + userTaskFolder.getName(), (getNumberOfAttempts(userId, taskId) + 1) + ".html");
+
+        }
+
+        if (file.getOriginalFilename().contains(".css") || file.getOriginalFilename().contains(".js")){
+            uploadedFile = new File(this.UPLOAD_PATH + "/" + userFolder.getName()
+                    + "/" + userTaskFolder.getName(), file.getOriginalFilename());
+
+            if(uploadedFile.exists()){
+                uploadedFile.delete();
+            }
+        }
 
         int attemptsNumber = this.getNumberOfAttempts(userId, taskId);
         if (attemptsNumber == task.getAttempts_max()){
             throw new ValidationException("Limited max attempts number");
         }
 
-        File uploadFolder = createFolder("", this.UPLOAD_PATH);
-        File userFolder= createFolder(this.UPLOAD_PATH, String.valueOf(userId));
-        File userTaskFolder = createFolder(this.UPLOAD_PATH + "/" + userFolder.getName(), String.valueOf(taskId));
-
-        File uploadedFile = new File(this.UPLOAD_PATH + "/" + userFolder.getName()
-                        + "/" + userTaskFolder.getName(), (getNumberOfAttempts(userId, taskId) + 1) + ".html");
 
         try {
             uploadedFile.createNewFile();
@@ -97,17 +114,20 @@ public class UserTaskService {
             e.printStackTrace();
         }
 
-        Date beforeTest = new Date();
-        try {
-            this.backstopTestService.runTest(userId, taskId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Date afterTest = new Date();
-        try {
-            insertUserTask(userId, taskId, beforeTest, afterTest);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if(file.getOriginalFilename().contains(".html")){
+            System.out.println(file.getOriginalFilename());
+            Date beforeTest = new Date();
+            try {
+                this.backstopTestService.runTest(userId, taskId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Date afterTest = new Date();
+            try {
+                insertUserTask(userId, taskId, beforeTest, afterTest);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         logger.info("File has uploaded" + " " + file.getOriginalFilename());
@@ -129,21 +149,18 @@ public class UserTaskService {
         userTasks.sort((first, second) -> -first.getProgress().compareTo(second.getProgress()));
 
         userTasks.forEach(userTask -> {
-            if (userTasks.get(0).equals(userTask)){
-                userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
-                        userTask.getTime().toString(), userTask.getPath_result(),
-                        userTask.getPath_upload()));
-            }
-            else{
-                userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
-                        userTask.getTime().toString()));
-            }
+            userTaskDtoList.add(new UserTaskDto(userTask.getProgress(),
+                    userTask.getTime().toString(), userTask.getPath_result().substring(16)
+                    .replace("/", "--"),
+                    userTask.getPath_upload().substring(16).replace("/", "--")));
+
         });
         return userTaskDtoList;
     }
 
     public int getNumberOfAttempts(Long userId, Long taskId) {
         List<UserTask> userTasks = userTaskDao.findByUserIdAndTaskId(userId, taskId);
+        logger.info("size {}", userTasks.size());
         return userTasks.size();
     }
 
